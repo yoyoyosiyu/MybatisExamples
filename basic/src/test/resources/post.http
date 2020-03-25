@@ -1,0 +1,13 @@
+POST http://localhost:5678/posts
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="field-name"
+
+field-value
+--WebAppBoundary--
+
+###
+GET http://localhost:5678/posts
+
+###
