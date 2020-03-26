@@ -18,5 +18,4 @@ public class User {
     @Column
     String name;
 
-
 }

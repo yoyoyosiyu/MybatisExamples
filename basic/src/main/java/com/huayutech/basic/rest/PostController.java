@@ -20,7 +20,7 @@ public class PostController {
     @PostMapping
     public void onCreatePost() {
 
-        postMapper.createPost(1L, "Hello, world!");
+        postMapper.createPost(1L, "Hello, world!", "content");
     }
 
     @GetMapping

@@ -8,3 +8,9 @@ admin
 --WebAppBoundary--
 
 ###
+GET http://localhost:5678/users/1/posts
+
+###
+GET http://localhost:5678/users/1
+
+###

@@ -7,6 +7,6 @@ public class PostPresent {
 
     String title;
 
-    UserPresent user;
+    UserPresent poster;
 
 }
