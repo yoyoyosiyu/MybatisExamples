@@ -13,10 +13,13 @@ public class SKU extends AuditingEntity<String> {
     @Id
     Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     SPU spu;
 
-    @Column
-    String name;
+    // 规格
+    @Column(nullable = false)
+    String specifications;
 
+    // 价格
+    Double price;
 }

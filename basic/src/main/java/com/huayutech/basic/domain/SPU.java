@@ -20,5 +20,16 @@ public class SPU extends AuditingEntity<String> {
     @ManyToOne
     GlobalSPU globalSPU;
 
+    @Column
+    String brand;
+
+    @Column
+    String manufacturer;
+
+    @Column
+    String partNumber;
+
+    @Column
+    String makeIn;
 
 }
