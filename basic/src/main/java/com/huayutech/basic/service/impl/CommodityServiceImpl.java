@@ -64,7 +64,7 @@ public class CommodityServiceImpl implements CommodityService {
         SKU sku = new SKU();
         sku.setId(idGeneratedService.generate());
         sku.setSpu(spu);
-        sku.setName(name);
+        sku.setSpecifications(name);
         skuRepository.save(sku);
 
         return sku.getId();

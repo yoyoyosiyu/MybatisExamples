@@ -3,12 +3,14 @@ package com.huayutech.basic.service.impl;
 import com.huayutech.basic.domain.Quotation;
 import com.huayutech.basic.domain.QuotationDetails;
 import com.huayutech.basic.domain.SKU;
+import com.huayutech.basic.mapper.CommodityMapper;
 import com.huayutech.basic.repository.QuotationDetailsRepository;
 import com.huayutech.basic.repository.QuotationRepository;
 import com.huayutech.basic.repository.SKURepository;
 import com.huayutech.basic.service.CommodityPriceService;
 import com.huayutech.basic.service.IdGeneratedService;
 import com.huayutech.basic.vo.PeriodPrice;
+import com.huayutech.basic.vo.PeriodPriceSearchCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,9 @@ public class CommodityPriceServiceImpl implements CommodityPriceService {
 
     @Autowired
     SKURepository skuRepository;
+
+    @Autowired
+    CommodityMapper commodityMapper;
 
     @Override
     public Long createQuotation(String name) {
@@ -82,8 +87,12 @@ public class CommodityPriceServiceImpl implements CommodityPriceService {
     }
 
     @Override
-    public Collection<PeriodPrice> getAllPeriodPriceOfQuotation(Long quotationId) {
-        return null;
+    public Collection<PeriodPrice> getAllPeriodPriceOfQuotation(Long quotationId, Long skuId) {
+        PeriodPriceSearchCondition condition = new PeriodPriceSearchCondition();
+        condition.setQuotationId(quotationId);
+        condition.setSkuId(skuId);
+
+        return commodityMapper.getCommodityPeriodPrices(condition);
     }
 
     @Override

@@ -3,7 +3,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.huayutech.basic.mapper.CommodityMapper">
 
-    <select id="getCurrentTime" resultType="java.util.Date">
-        SELECT current_timestamp(3)
+    <select id="searchCommodity" resultType="com.huayutech.basic.vo.Commodity" parameterType="com.huayutech.basic.vo.CommoditySearchCondition">
+        <if test="keyword != null">
+            <bind name="bindkeyword" value="'%'+keyword+'%'" />
+        </if>
+        <if test="quotationId != null">
+            WITH quo as (
+                SELECT quotation_id, sku_id, start_time, finish_time, price, row_number() over (partition by quotation_id, sku_id order by start_time desc) as `rank`
+                FROM quotation
+                LEFT JOIN quotation_details qd on quotation.id = qd.quotation_id
+                WHERE qd.start_time &lt;= now() and (qd.finish_time &gt; now() or qd.finish_time is null)
+            )
+        </if>
+        SELECT g.id as globalSPUId, s.id as SPUId, sku.id as SKUId, name, alias, specifications, sku.price
+            <if test="quotationId != null">
+                , quo.quotation_id as quotationId, quo.price as quotationPrice
+            </if>
+        FROM sku
+        LEFT JOIN spu s on sku.spu_id = s.id
+        LEFT JOIN globalspu g on s.globalspu_id = g.id
+        <if test="quotationId != null">
+            LEFT JOIN quo on sku.id = quo.sku_id and quo.rank =1
+        </if>
+        <where>
+            <if test="keyword != null">
+                (name LIKE #{bindkeyword} OR alias LIKE #{bindkeyword} OR specifications LIKE #{bindkeyword})
+            </if>
+            <if test="quotationId != null">
+                AND quo.quotation_id = #{quotationId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCommodityPeriodPrices" resultType="com.huayutech.basic.vo.PeriodPrice" parameterType="com.huayutech.basic.vo.PeriodPriceSearchCondition">
+        SELECT q.id as quotationId, qd.* FROM quotation_details qd LEFT JOIN quotation q on qd.quotation_id = q.id
+        WHERE quotation_id = #{quotationId} and sku_id = #{skuId}
     </select>
 </mapper>

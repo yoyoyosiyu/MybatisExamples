@@ -51,9 +51,10 @@ public interface CommodityPriceService {
     /**
      * 返回指定的报价单的所有的周期报价信息
      * @param quotationId 报价单的Id标识
+     * @param skuId 商品的SKU标识
      * @return 周期报价列表
      */
-    Collection<PeriodPrice> getAllPeriodPriceOfQuotation(Long quotationId);
+    Collection<PeriodPrice> getAllPeriodPriceOfQuotation(Long quotationId, Long skuId);
 
     /**
      * 删除指定报价单的所有周期报价信息
